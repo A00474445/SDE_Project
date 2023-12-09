@@ -45,6 +45,7 @@ const Dashboard = () => {
             <p>Venue: {event.evenT_VENUE}</p>
             <p>Cost: {event.evenT_COST}</p>
             <p>Description: {event.evenT_DESCRIPTION}</p>
+            <p>Find more in<a>https://eclipse.global/30-ways-to-hold-a-successful-event/</a></p>
         </div>
     ))}
 
@@ -53,7 +54,7 @@ const Dashboard = () => {
     <hr />
 
 
-    <h1>Events You have Hosted</h1>
+    <h1>Events You have Hosted!</h1>
     {hostedeventData && hostedeventData.map((event, index) => (
         <div key={index}>
             <h4>Event Name: {event.evenT_NAME}</h4>
