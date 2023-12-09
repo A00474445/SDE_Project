@@ -103,6 +103,7 @@ namespace Eventique_Final.Controllers
                 Success = true,
                 Message = "Logout successful.",
                 Data = null
+                //logout response
             };
 
             return Ok(response);
