@@ -131,7 +131,7 @@ namespace Eventique_Final.Controllers
                                              (ue, e) => e)
                                        .ToListAsync();
             return events;
-        }
+        }// updated a fix
 
         [HttpPost("viewhostedevents")]  // POST method since we are using request body
         public async Task<ActionResult<IEnumerable<Event>>> GetUserHostedEvents([FromBody] ViewUserEventsRequest request)
