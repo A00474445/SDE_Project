@@ -40,7 +40,10 @@ const EventDetails = () => {
             {eventData['evenT_VENUE']}
             <br />
 
-            <Link to={`/payment/${eventData.evenT_ID}`}><button>Pay and Join this Event</button></Link>
+              <Link to={`/payment/${eventData.evenT_ID}`}><button>Pay and Join this Event</button></Link>
+              <Link to={`/login/`}><button>login</button></Link>
+              <Link to={`/dashboard/`}><button>dashboard</button></Link>
+
         </div>
     </div>
 

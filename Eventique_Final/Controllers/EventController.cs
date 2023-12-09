@@ -158,6 +158,19 @@ namespace Eventique_Final.Controllers
             return eventDetails;
         }
 
+        [HttpPost("deletevieweventData")]
+        public async Task<ActionResult<IEnumerable<Event>>> DeleteViewEventDAta([FromBody] ViewUserEventsRequest request)
+        {
+            var hostedEvents = await _context.Events
+                                             .Where(e => e.HOST_USER_ID == request.USER_ID)
+                                             .FirstOrDefaultAsync();
+            _context.Remove(hostedEvents);
+
+            await _context.SaveChangesAsync();
+
+            return Ok(hostedEvents);
+        }
+
 
     }
 }
