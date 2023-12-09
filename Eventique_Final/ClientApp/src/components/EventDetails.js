@@ -47,5 +47,5 @@ const EventDetails = () => {
 
   );
 };
-
+// modified eventid for payment interface
 export default EventDetails;
