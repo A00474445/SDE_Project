@@ -33,6 +33,7 @@ const Dashboard = () => {
   
 
   return (
+<<<<<<< HEAD
     
     <section id="services" class="services section-bg">
         <br /><br /><br />
@@ -60,9 +61,26 @@ const Dashboard = () => {
 
             ))}
             </div>
+=======
+    <div>
+    <h1>Events You have joined</h1>
+    {eventData && eventData.map((event, index) => (
+        <div key={index}>
+            <h4>Event Name: {event.evenT_NAME}</h4>
+            <p>ID: {event.evenT_ID}</p>
+            <p>Host ID: {event.hosT_USER_ID}</p>
+            <p>Date: {event.evenT_DATE}</p>
+            <p>Time: {event.evenT_TIME}</p>
+            <p>Category: {event.evenT_CATEGORY}</p>
+            <p>Venue: {event.evenT_VENUE}</p>
+            <p>Cost: {event.evenT_COST}</p>
+            <p>Description: {event.evenT_DESCRIPTION}</p>
+            <p>Find more in<a>https://eclipse.global/30-ways-to-hold-a-successful-event/</a></p>
+>>>>>>> c9459183b5e1d3f5ab4ad42a189f139499c5700c
         </div>
 
 
+<<<<<<< HEAD
         <div class="container">
 
             <div class="section-title">
@@ -87,6 +105,24 @@ const Dashboard = () => {
 
             ))}
             </div>
+=======
+    <hr />
+    <hr />
+
+
+    <h1>Events You have Hosted!</h1>
+    {hostedeventData && hostedeventData.map((event, index) => (
+        <div key={index}>
+            <h4>Event Name: {event.evenT_NAME}</h4>
+            <p>ID: {event.evenT_ID}</p>
+            <p>Host ID: {event.hosT_USER_ID}</p>
+            <p>Date: {event.evenT_DATE}</p>
+            <p>Time: {event.evenT_TIME}</p>
+            <p>Category: {event.evenT_CATEGORY}</p>
+            <p>Venue: {event.evenT_VENUE}</p>
+            <p>Cost: {event.evenT_COST}</p>
+            <p>Description: {event.evenT_DESCRIPTION}</p>
+>>>>>>> c9459183b5e1d3f5ab4ad42a189f139499c5700c
         </div>
         <br /><br /><br />
     </section>

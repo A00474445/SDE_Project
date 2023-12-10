@@ -37,6 +37,7 @@ const Home = () => {
   
 
   return (
+<<<<<<< HEAD
     
     <div>
             <section id="hero">
@@ -306,6 +307,31 @@ const Home = () => {
 
             </main>
 
+=======
+      <div>
+          <header>
+              <Link to="/" className="logo">
+                  MyBlog
+              </Link>
+              <nav>
+                  <Link to="/login">Login</Link>
+                  <Link to="/register">Register</Link>
+                  <a href="">About</a>
+              </nav>
+          </header>
+    {eventData && eventData.map((event, index) => (
+        <div key={index}>
+            <h2>Event Name: {event.evenT_NAME}</h2>
+            <p>Date: {event.evenT_DATE}</p>
+            <p>Category: {event.evenT_CATEGORY}</p>
+            <Link to={`/event_details/${event.evenT_ID}`}><button>More Details</button></Link>
+            <div>
+            <img>Mush it with other details</img>
+            </div>
+        </div>
+    ))}
+</div>
+>>>>>>> c9459183b5e1d3f5ab4ad42a189f139499c5700c
 
     </div>
 

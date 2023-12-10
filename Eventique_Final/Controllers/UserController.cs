@@ -135,6 +135,7 @@ namespace Eventique_Final.Controllers
                 Success = true,
                 Message = "Logout successful.",
                 Data = null
+                //logout response
             };
 
             return Ok(response);
@@ -161,7 +162,20 @@ namespace Eventique_Final.Controllers
 
 
 
-        // Get user by ID
+        // Get user by email
+        [HttpGet("fetchuser/{USER_EMAIL}")]
+        public async Task<ActionResult<User>> GetUser(string email)
+        {
+            var user = await _context.Users.FindAsync(email);
+
+            if (user == null)
+            {
+                return NotFound("User not Found.");
+            }
+
+            return user;
+        }
+
         [HttpGet("fetchuser/{id}")]
         public async Task<ActionResult<User>> GetUser(int id)
         {

@@ -151,5 +151,5 @@ const CreateEvent = () => {
     </div>
   );
 };
-
+// aligned the layouts
 export default CreateEvent;

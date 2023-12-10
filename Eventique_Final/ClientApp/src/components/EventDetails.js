@@ -18,10 +18,11 @@ const EventDetails = () => {
               console.log(response.data);
           })
           .catch(error => console.log(error));
-      }, []);
+      }, []); //response api get error resolved
 
 
   return (
+<<<<<<< HEAD
     <main id="main">
         <br /><br /><br />
         <section id="portfolio-details" class="portfolio-details">
@@ -64,6 +65,31 @@ const EventDetails = () => {
                     </div>
                 </div>
             </div>
+=======
+    <div>
+        <div>
+            <br />
+            <h3>EVENT DETAILS</h3>
+            {eventData['evenT_NAME']}
+            <br />
+            {eventData['evenT_CATEGORY']}
+            <br />
+            {eventData['evenT_DESCRIPTION']}
+            <br />
+            {eventData['evenT_DATE']}
+            <br />
+            {eventData['evenT_TIME']}
+            <br />
+            {eventData['evenT_COST']}
+            <br />
+            {eventData['evenT_VENUE']}
+            <br />
+
+              <Link to={`/payment/${eventData.evenT_ID}`}><button>Pay and Join this Event</button></Link>
+              <Link to={`/login/`}><button>login</button></Link>
+              <Link to={`/dashboard/`}><button>dashboard</button></Link>
+
+>>>>>>> c9459183b5e1d3f5ab4ad42a189f139499c5700c
         </div>
     </section>
     <br /><br /><br />
@@ -72,5 +98,5 @@ const EventDetails = () => {
 
   );
 };
-
+// modified eventid for payment interface
 export default EventDetails;
