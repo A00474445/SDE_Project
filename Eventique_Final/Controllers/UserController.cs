@@ -12,6 +12,8 @@ using System.Linq;
 using System;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Eventique_Final.Controllers
 {
@@ -33,18 +35,48 @@ namespace Eventique_Final.Controllers
         {
             var response = new ApiResponse<User>();
 
-            if (!ModelState.IsValid)
+            var errors = new List<string>();
+
+            // Custom validation for USER_PHONE
+            Regex phoneRegex = new Regex(@"^\+1\d{10}$");
+            if (!phoneRegex.IsMatch(user.USER_PHONE))
+            {
+                errors.Add("Phone number must be a US or Canadian number in the format +1XXXXXXXXXX.");
+            }
+
+            // Custom validation for USER_PASSWORD
+            Regex passwordRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
+            if (!passwordRegex.IsMatch(user.USER_PASSWORD))
+            {
+                errors.Add("Password must be at least 8 characters and include a lowercase letter, an uppercase letter, and a number.");
+            }
+
+            // Custom validation for USER_NAME
+            Regex usernameRegex = new Regex(@"^[a-zA-Z0-9_]+$");
+            if (!usernameRegex.IsMatch(user.USER_NAME))
+            {
+                errors.Add("Username must contain only letters, numbers, and underscores.");
+            }
+
+            // Custom validation for USER_EMAIL
+            if (!new EmailAddressAttribute().IsValid(user.USER_EMAIL))
+            {
+                errors.Add("Invalid email format.");
+            }
+
+            // Check if there are any errors
+            if (errors.Any())
             {
                 response.Success = false;
-                response.Message = "Invalid model state.";
+                response.Message = "Invalid Model State. Errors: " + string.Join(", ", errors);
                 response.Data = null;
-                return Ok(response);
+                return Ok(response); // You can choose to return Ok or another status code
             }
 
             if (_context.Users.Any(u => u.USER_EMAIL == user.USER_EMAIL))
             {
                 response.Success = false;
-                response.Message = "Email already in use.";
+                response.Message = "Email Already in Use.";
                 response.Data = null;
                 return Ok(response);
             }
@@ -55,7 +87,7 @@ namespace Eventique_Final.Controllers
             await _context.SaveChangesAsync();
 
             response.Success = true;
-            response.Message = "User created successfully.";
+            response.Message = "User Created Successfully.";
             response.Data = user;
 
             return CreatedAtAction(nameof(GetUser), new { id = user.USER_ID }, response);
@@ -83,13 +115,13 @@ namespace Eventique_Final.Controllers
             if (user == null || !VerifyPassword(loginRequest.USER_PASSWORD, user.USER_PASSWORD))
             {
                 response.Success = false;
-                response.Message = "Unauthorized - Invalid email or password.";
+                response.Message = "Unauthorized - Invalid Email or Password.";
                 response.Data = null;
                 return Ok(response);
             }
 
             response.Success = true;
-            response.Message = "Login successful.";
+            response.Message = "Login Successful.";
             response.Data = user;
             return Ok(response);
         }

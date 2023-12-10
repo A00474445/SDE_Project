@@ -8,8 +8,8 @@ import CreateEvent from './components/CreateEvent'
 import Dashboard from './components/Dashboard'
 import EventDetails from './components/EventDetails'
 import Payment from './components/Payment'
+import Footer from './components/Footer'
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
 
 function App(){
 
@@ -26,6 +26,8 @@ function App(){
           <Route path = '/event_details/:eventId' element={<EventDetails />}></Route>
           <Route path = '/payment/:eventId' element={<Payment />}></Route>
         </Routes> 
+
+        <Footer />
       </BrowserRouter>
     
   )

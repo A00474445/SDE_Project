@@ -9,6 +9,10 @@ using Eventique_Final.Data;
 using Eventique_Final.Data.Models;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Text.RegularExpressions;
+using System.Net;
+using System.Net.Mail;
+
 
 
 namespace Eventique_Final.Controllers
@@ -31,11 +35,42 @@ namespace Eventique_Final.Controllers
         public async Task<ActionResult<ApiResponse<Event>>> CreateEvent([FromBody] Event @event)
         {
             var response = new ApiResponse<Event>();
+            var errors = new List<string>();
 
-            if (!ModelState.IsValid)
+            Regex specialCharsRegex = new Regex(@"^[a-zA-Z0-9_ ]+$");
+            Regex numberRegex = new Regex(@"^[0-9]+$");
+            Regex timeRegex = new Regex(@"^([01]?\d|2[0-3]):[0-5]\d$");
+
+
+            if (!specialCharsRegex.IsMatch(@event.EVENT_NAME))
+            {
+                errors.Add("Event name must contain only letters, numbers, and underscores." + @event.EVENT_NAME);
+            }
+
+            if (!timeRegex.IsMatch(@event.EVENT_TIME))
+            {
+                errors.Add("Time must be in the format HH:MM.");
+            }
+
+            if (!specialCharsRegex.IsMatch(@event.EVENT_CATEGORY))
+            {
+                errors.Add("Event category must contain only letters, numbers, and underscores.");
+            }
+
+            if (!specialCharsRegex.IsMatch(@event.EVENT_VENUE))
+            {
+                errors.Add("Event venue must contain only letters, numbers, and underscores.");
+            }
+
+            if (@event.EVENT_COST < 0)
+            {
+                errors.Add("Event cost must be a non-negative number.");
+            }
+
+            if (!ModelState.IsValid || errors.Any())
             {
                 response.Success = false;
-                response.Message = "Invalid model state.";
+                response.Message = "Invalid model state. " + (errors.Any() ? "Errors: " + string.Join(", ", errors) : "");
                 response.Data = null;
                 return Ok(response);
             }
@@ -119,6 +154,30 @@ namespace Eventique_Final.Controllers
 
 
 
+        [HttpPost("viewusereventsnotjoined")]  // Renamed route to reflect the new functionality
+        public async Task<ActionResult<IEnumerable<Event>>> GetUserEventsNotJoined([FromBody] ViewUserEventsRequest request)
+        {
+            // Get a list of event IDs that the user has already joined or hosted
+            var joinedOrHostedEventIds = await _context.UserEvents
+                                                       .Where(ue => ue.USER_ID == request.USER_ID)
+                                                       .Select(ue => ue.EVENT_ID)
+                                                       .ToListAsync();
+
+            // Add the events hosted by the user to the list
+            joinedOrHostedEventIds.AddRange(await _context.Events
+                                                          .Where(e => e.HOST_USER_ID == request.USER_ID)
+                                                          .Select(e => e.EVENT_ID)
+                                                          .ToListAsync());
+
+            // Retrieve events that the user has not joined or hosted
+            var eventsNotJoinedOrHosted = await _context.Events
+                                                        .Where(e => !joinedOrHostedEventIds.Contains(e.EVENT_ID))
+                                                        .ToListAsync();
+            return eventsNotJoinedOrHosted;
+        }
+
+
+
         // View events specific to a user
         [HttpPost("viewuserevents")]  // Changed to POST since we are using request body
         public async Task<ActionResult<IEnumerable<Event>>> GetUserEvents([FromBody] ViewUserEventsRequest request)
@@ -132,6 +191,11 @@ namespace Eventique_Final.Controllers
                                        .ToListAsync();
             return events;
         }
+
+
+
+
+
 
         [HttpPost("viewhostedevents")]  // POST method since we are using request body
         public async Task<ActionResult<IEnumerable<Event>>> GetUserHostedEvents([FromBody] ViewUserEventsRequest request)
@@ -156,6 +220,39 @@ namespace Eventique_Final.Controllers
             }
 
             return eventDetails;
+        }
+
+
+
+        [HttpPost("send")]
+        public IActionResult SendEmail([FromBody] EmailModel emailModel)
+        {
+            try
+            {
+                using (var smtpClient = new SmtpClient("smtp.gmail.com"))
+                {
+                    smtpClient.Port = 587;
+                    smtpClient.Credentials = new NetworkCredential("eventiqueproject@gmail.com", "cfnq yyim uilw lnqm");
+                    smtpClient.EnableSsl = true;
+
+                    var mailMessage = new MailMessage
+                    {
+                        From = new MailAddress("eventiqueproject@gmail.com"), // Your email address
+                        To = { new MailAddress(emailModel.To) },
+                        Subject = emailModel.Subject,
+                        Body = emailModel.Body,
+                        IsBodyHtml = true, // Assuming the body is HTML, change if necessary
+                    };
+
+                    smtpClient.Send(mailMessage);
+                }
+
+                return Ok("Email sent successfully");
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest("Could not send email: " + ex.Message);
+            }
         }
 
 

@@ -43,7 +43,16 @@ namespace Eventique_Final.Data.Models
 
 
         [Required]
+        [MaxLength(300), Column(TypeName = "nvarchar(300)")]
+        public string? EVENT_IMAGE { get; set; }
+
+
+        [Required]
         [MaxLength(500), Column(TypeName = "nvarchar(500)")]
         public string? EVENT_DESCRIPTION { get; set; }
+
+
+        
+
     }
 }

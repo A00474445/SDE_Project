@@ -6,7 +6,6 @@ const Nav = () => {
 
   const navigate = useNavigate()
 
-
   const handleLogout = () => {
       
       window.localStorage.clear()
@@ -17,30 +16,33 @@ const Nav = () => {
   }
 
   return (
-    <div>
-      
-        <Link to="/">Eventique</Link>
-        <br />
-        
+    <header id="header">
+    <div className="container d-flex align-items-center justify-content-between">
 
+      <div className="logo">
+        <h1><Link to="/">Eventique<span>.</span></Link></h1>
+      </div>
+
+      <nav id="navbar" className="navbar">
         {
           window.localStorage.length ?
-          <div>
-            <Link to="/dashboard">Dashboard</Link>
-            <br />
-            <Link to="/createevent">Create Event</Link>
-            <br />
-            <Link onClick={handleLogout}>Logout</Link>
-          </div>
+            <ul>
+              <li><Link className="nav-link scrollto" to="/dashboard">Dashboard</Link></li>
+              <li><Link className="nav-link scrollto"to="/createevent">Create Event</Link></li>
+              <li><Link className="nav-link scrollto" onClick={handleLogout}>Logout</Link></li>
+            </ul>
+
           :
-          <div>
-            <Link to="/login">Login</Link>
-            <br />
-            <Link to="/signup">Register</Link>
-          </div>
+            <ul>
+              <li><Link className="nav-link scrollto" to="/login">Login</Link></li>
+              <li><Link className="nav-link scrollto"to="/signup">Register</Link></li>
+            </ul>
         }
-        
+
+        <i className="bi bi-list mobile-nav-toggle"></i>
+      </nav>
     </div>
+  </header>
   );
 };
 

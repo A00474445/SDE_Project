@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Eventique_Final.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20231205042041_Initial")]
+    [Migration("20231209091828_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -48,6 +48,11 @@ namespace Eventique_Final.Data.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<string>("EVENT_IMAGE")
+                        .IsRequired()
+                        .HasMaxLength(300)
+                        .HasColumnType("nvarchar(300)");
+
                     b.Property<string>("EVENT_NAME")
                         .IsRequired()
                         .HasMaxLength(150)
@@ -82,11 +87,64 @@ namespace Eventique_Final.Data.Migrations
                     b.Property<int>("AMOUNT")
                         .HasColumnType("int");
 
+                    b.Property<string>("CITY")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("COUNTRY")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CREDIT_CARD_EXPIRATION_DATE")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CREDIT_CARD_NAME")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CREDIT_CARD_NUMBER")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CREDIT_CARD_TYPE")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("EMAIL")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("EVENT_ID")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("PAYMENT_DATE")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("FIRST_NAME")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LAST_NAME")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LOGIN_CHECKIN_DATE")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PAYMENT_CHECKOUT_DATE")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PHONE_NUMBER")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("POSTAL_CODE")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("STATE")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("USER_ID")
                         .HasColumnType("int");

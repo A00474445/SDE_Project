@@ -17,7 +17,9 @@ const context =  [
   "/api/Event/viewhostedevents",
   "/api/Event/vieweventData",
   "/api/Payment/makepayment",
-  "/api/Payment/viewpayment"
+  "/api/Payment/viewpayment",
+  "/api/Event/send",
+  "/api/Event/viewusereventsnotjoined"
 ];
 
 module.exports = function(app) {
